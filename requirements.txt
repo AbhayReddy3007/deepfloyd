@@ -1,0 +1,16 @@
+# Core
+streamlit
+Pillow
+
+# Google Cloud (Gemini / Vertex AI)
+google-cloud-aiplatform
+google-auth
+
+# Hugging Face (DeepFloyd IF / Stable Diffusion family)
+torch
+torchvision
+diffusers[torch]
+transformers
+accelerate
+safetensors
+huggingface_hub
