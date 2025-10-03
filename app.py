@@ -23,7 +23,7 @@ from diffusers import DiffusionPipeline, StableDiffusionImg2ImgPipeline
 from huggingface_hub import login
 
 # ⚠️ Hardcode your Hugging Face token here
-HF_TOKEN = "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"
+HF_TOKEN = "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"
 login(HF_TOKEN)
 
 # Try to load DeepFloyd IF, fallback to SDXL if access denied
