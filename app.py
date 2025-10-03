@@ -20,19 +20,16 @@ TEXT_MODEL = GenerativeModel("gemini-2.0-flash")  # prompt refinement
 # ---------------- HUGGING FACE (DeepFloyd IF / SDXL for Images) ----------------
 import torch
 from diffusers import DiffusionPipeline, StableDiffusionImg2ImgPipeline
-from huggingface_hub import login
 
 # ⚠️ Hardcode your Hugging Face token here
 HF_TOKEN = "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"
-login(HF_TOKEN)
 
-# Try to load DeepFloyd IF, fallback to SDXL if access denied
 @st.cache_resource
 def load_if_pipeline():
     try:
         pipe = DiffusionPipeline.from_pretrained(
             "DeepFloyd/IF-I-M-v1.0",
-            use_auth_token=HF_TOKEN,
+            token=HF_TOKEN,   # ✅ new way to pass token
             torch_dtype=torch.float16 if torch.cuda.is_available() else torch.float32
         )
         return pipe.to("cuda" if torch.cuda.is_available() else "cpu")
@@ -49,7 +46,7 @@ def load_if_img2img_pipeline():
     try:
         pipe = StableDiffusionImg2ImgPipeline.from_pretrained(
             "DeepFloyd/IF-I-M-v1.0",
-            use_auth_token=HF_TOKEN,
+            token=HF_TOKEN,   # ✅ updated
             torch_dtype=torch.float16 if torch.cuda.is_available() else torch.float32
         )
         return pipe.to("cuda" if torch.cuda.is_available() else "cpu")
