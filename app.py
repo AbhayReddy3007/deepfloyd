@@ -21,15 +21,14 @@ TEXT_MODEL = GenerativeModel("gemini-2.0-flash")  # prompt refinement
 import torch
 from diffusers import DiffusionPipeline, StableDiffusionImg2ImgPipeline
 
-# ⚠️ Hardcode your Hugging Face token here
-HF_TOKEN = "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"
+HF_TOKEN = st.secrets["HF_TOKEN"]   # ✅ load from secrets
 
 @st.cache_resource
 def load_if_pipeline():
     try:
         pipe = DiffusionPipeline.from_pretrained(
             "DeepFloyd/IF-I-M-v1.0",
-            token=HF_TOKEN,   # ✅ new way to pass token
+            token=HF_TOKEN,   # ✅ use token from secrets
             torch_dtype=torch.float16 if torch.cuda.is_available() else torch.float32
         )
         return pipe.to("cuda" if torch.cuda.is_available() else "cpu")
@@ -46,7 +45,7 @@ def load_if_img2img_pipeline():
     try:
         pipe = StableDiffusionImg2ImgPipeline.from_pretrained(
             "DeepFloyd/IF-I-M-v1.0",
-            token=HF_TOKEN,   # ✅ updated
+            token=HF_TOKEN,   # ✅ use token from secrets
             torch_dtype=torch.float16 if torch.cuda.is_available() else torch.float32
         )
         return pipe.to("cuda" if torch.cuda.is_available() else "cpu")
